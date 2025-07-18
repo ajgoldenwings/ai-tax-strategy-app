@@ -1,0 +1,125 @@
+@model StockPortfolioTracker.Models.Trade
+
+@{
+    ViewData["Title"] = "Trade Details";
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title mb-0">
+                        <i class="fas fa-info-circle me-2"></i>Trade Details
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Stock Symbol</label>
+                            <div class="form-control-plaintext fs-5 fw-bold text-primary">
+                                @Html.DisplayFor(model => model.StockSymbol)
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Trade Type</label>
+                            <div class="form-control-plaintext">
+                                @if (Model.Type == StockPortfolioTracker.Models.TradeType.Buy)
+                                {
+                                    <span class="badge bg-success fs-6">Buy Order</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger fs-6">Sell Order</span>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Quantity</label>
+                            <div class="form-control-plaintext">
+                                @Html.DisplayFor(model => model.Quantity, "{0:N4}") shares
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Price per Share</label>
+                            <div class="form-control-plaintext">
+                                @Html.DisplayFor(model => model.Price, "{0:C}")
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Trade Date</label>
+                            <div class="form-control-plaintext">
+                                @Html.DisplayFor(model => model.TradeDate, "{0:MMMM dd, yyyy}")
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Total Value</label>
+                            <div class="form-control-plaintext fs-5 fw-bold">
+                                @Html.DisplayFor(model => model.TotalValue, "{0:C}")
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12 mb-3">
+                            <label class="form-label fw-bold">Record Created</label>
+                            <div class="form-control-plaintext text-muted">
+                                @Html.DisplayFor(model => model.CreatedAt, "{0:MMMM dd, yyyy 'at' h:mm tt}")
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card bg-light">
+                                <div class="card-body">
+                                    <h6 class="card-title">Trade Summary</h6>
+                                    <p class="card-text mb-0">
+                                        @if (Model.Type == StockPortfolioTracker.Models.TradeType.Buy)
+                                        {
+                                            <span>Purchased <strong>@Model.Quantity.ToString("N4")</strong> shares of <strong>@Model.StockSymbol</strong> 
+                                            at <strong>@Model.Price.ToString("C")</strong> per share on <strong>@Model.TradeDate.ToString("MMMM dd, yyyy")</strong> 
+                                            for a total investment of <strong>@Model.TotalValue.ToString("C")</strong>.</span>
+                                        }
+                                        else
+                                        {
+                                            <span>Sold <strong>@Model.Quantity.ToString("N4")</strong> shares of <strong>@Model.StockSymbol</strong> 
+                                            at <strong>@Model.Price.ToString("C")</strong> per share on <strong>@Model.TradeDate.ToString("MMMM dd, yyyy")</strong> 
+                                            for a total return of <strong>@Model.TotalValue.ToString("C")</strong>.</span>
+                                        }
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-between">
+                                <a asp-action="Index" class="btn btn-secondary">
+                                    <i class="fas fa-arrow-left me-2"></i>Back to Trade History
+                                </a>
+                                <div>
+                                    <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-outline-danger me-2">
+                                        <i class="fas fa-trash me-2"></i>Delete Trade
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

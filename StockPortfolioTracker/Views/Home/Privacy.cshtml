@@ -1,0 +1,63 @@
+﻿@{
+    ViewData["Title"] = "Privacy Policy";
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-header">
+                    <h1 class="card-title mb-0">
+                        <i class="fas fa-shield-alt me-2"></i>@ViewData["Title"]
+                    </h1>
+                </div>
+                <div class="card-body">
+                    <div class="mb-4">
+                        <h5>Data Collection and Usage</h5>
+                        <p class="text-muted">
+                            Stock Portfolio Tracker is designed to help you manage your personal investment portfolio. 
+                            All data you enter is stored locally on your device and is not transmitted to external servers.
+                        </p>
+                    </div>
+
+                    <div class="mb-4">
+                        <h5>Information We Store</h5>
+                        <ul class="text-muted">
+                            <li>Stock trade information (symbols, quantities, prices, dates)</li>
+                            <li>Portfolio calculations and historical data</li>
+                            <li>Application preferences and settings</li>
+                        </ul>
+                    </div>
+
+                    <div class="mb-4">
+                        <h5>Data Security</h5>
+                        <p class="text-muted">
+                            Your financial data is stored in a local SQLite database on your device. 
+                            We do not collect, transmit, or store your personal financial information on remote servers.
+                        </p>
+                    </div>
+
+                    <div class="mb-4">
+                        <h5>Third-Party Services</h5>
+                        <p class="text-muted">
+                            This application does not integrate with third-party services for data collection or analytics. 
+                            All processing is done locally on your device.
+                        </p>
+                    </div>
+
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i>
+                        <strong>Note:</strong> Since all data is stored locally, please ensure you have appropriate 
+                        backups of your data if needed. The application developers are not responsible for data loss.
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <a href="@Url.Action("Index", "Home")" class="btn btn-primary">
+                            <i class="fas fa-arrow-left me-2"></i>Back to Portfolio
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

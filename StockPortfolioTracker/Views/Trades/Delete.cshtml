@@ -1,0 +1,127 @@
+@model StockPortfolioTracker.Models.Trade
+
+@{
+    ViewData["Title"] = "Delete Trade";
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+            <div class="card border-danger">
+                <div class="card-header bg-danger text-white">
+                    <h3 class="card-title mb-0">
+                        <i class="fas fa-exclamation-triangle me-2"></i>Delete Trade Confirmation
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-warning" role="alert">
+                        <i class="fas fa-warning me-2"></i>
+                        <strong>Warning:</strong> You are about to permanently delete this trade record. This action cannot be undone.
+                    </div>
+
+                    <h5 class="mb-3">Trade to be deleted:</h5>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Stock Symbol</label>
+                            <div class="form-control-plaintext fs-5 fw-bold text-primary">
+                                @Html.DisplayFor(model => model.StockSymbol)
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Trade Type</label>
+                            <div class="form-control-plaintext">
+                                @if (Model.Type == StockPortfolioTracker.Models.TradeType.Buy)
+                                {
+                                    <span class="badge bg-success fs-6">Buy Order</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger fs-6">Sell Order</span>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Quantity</label>
+                            <div class="form-control-plaintext">
+                                @Html.DisplayFor(model => model.Quantity, "{0:N4}") shares
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Price per Share</label>
+                            <div class="form-control-plaintext">
+                                @Html.DisplayFor(model => model.Price, "{0:C}")
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Trade Date</label>
+                            <div class="form-control-plaintext">
+                                @Html.DisplayFor(model => model.TradeDate, "{0:MMMM dd, yyyy}")
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Total Value</label>
+                            <div class="form-control-plaintext fs-5 fw-bold">
+                                @Html.DisplayFor(model => model.TotalValue, "{0:C}")
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card bg-light border-warning">
+                                <div class="card-body">
+                                    <h6 class="card-title text-warning">
+                                        <i class="fas fa-info-circle me-2"></i>Impact of Deletion
+                                    </h6>
+                                    <p class="card-text mb-0">
+                                        Deleting this trade will:
+                                    </p>
+                                    <ul class="mt-2 mb-0">
+                                        <li>Remove this transaction from your trade history</li>
+                                        <li>Affect your portfolio calculations and holdings</li>
+                                        <li>Impact historical portfolio views for dates after this trade</li>
+                                        <li>Cannot be recovered once deleted</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <form asp-action="Delete" method="post">
+                                <input type="hidden" asp-for="Id" />
+                                <div class="d-grid gap-2 d-md-flex justify-content-md-between">
+                                    <a asp-action="Index" class="btn btn-secondary">
+                                        <i class="fas fa-arrow-left me-2"></i>Cancel - Keep Trade
+                                    </a>
+                                    <div>
+                                        <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-outline-primary me-2">
+                                            <i class="fas fa-eye me-2"></i>View Details
+                                        </a>
+                                        <button type="submit" class="btn btn-danger" 
+                                                onclick="return confirm('Are you absolutely sure you want to delete this trade? This action cannot be undone.');">
+                                            <i class="fas fa-trash me-2"></i>Yes, Delete Trade
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

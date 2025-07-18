@@ -1,0 +1,114 @@
+@*
+    Enhanced partial view for displaying validation errors with Bootstrap styling
+    Usage: @await Html.PartialAsync("_ValidationErrorsPartial")
+*@
+
+@if (!ViewData.ModelState.IsValid)
+{
+    var modelErrors = ViewData.ModelState
+        .Where(x => x.Value?.Errors.Count > 0)
+        .SelectMany(x => x.Value?.Errors ?? new Microsoft.AspNetCore.Mvc.ModelBinding.ModelErrorCollection())
+        .Select(x => x.ErrorMessage)
+        .Where(x => !string.IsNullOrEmpty(x))
+        .Distinct()
+        .ToList();
+
+    if (modelErrors.Any())
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert" id="validationErrorAlert">
+            <div class="d-flex align-items-start">
+                <div class="flex-shrink-0">
+                    <i class="fas fa-exclamation-circle fa-lg text-danger me-2"></i>
+                </div>
+                <div class="flex-grow-1">
+                    <h6 class="alert-heading mb-2">
+                        @if (modelErrors.Count == 1)
+                        {
+                            <text>Please correct the following error:</text>
+                        }
+                        else
+                        {
+                            <text>Please correct the following @modelErrors.Count errors:</text>
+                        }
+                    </h6>
+                    
+                    @if (modelErrors.Count == 1)
+                    {
+                        <p class="mb-0">@modelErrors.First()</p>
+                    }
+                    else
+                    {
+                        <ul class="mb-0 ps-3">
+                            @foreach (var error in modelErrors)
+                            {
+                                <li class="mb-1">@error</li>
+                            }
+                        </ul>
+                    }
+                </div>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+}
+
+@* Custom validation error styling *@
+<style>
+    .field-validation-error {
+        color: #dc3545;
+        font-size: 0.875em;
+        margin-top: 0.25rem;
+        display: block;
+    }
+    
+    .input-validation-error {
+        border-color: #dc3545;
+        box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+    }
+    
+    .validation-summary-errors ul {
+        margin-bottom: 0;
+        padding-left: 1.25rem;
+    }
+    
+    .validation-summary-errors li {
+        margin-bottom: 0.25rem;
+    }
+</style>
+
+@* Enhanced client-side validation *@
+<script>
+    $(document).ready(function() {
+        // Enhance validation error display
+        $('form').on('invalid-form.validate', function() {
+            // Scroll to first error
+            var firstError = $('.field-validation-error:visible:first');
+            if (firstError.length > 0) {
+                $('html, body').animate({
+                    scrollTop: firstError.offset().top - 100
+                }, 500);
+            }
+        });
+        
+        // Add Bootstrap classes to validation elements
+        $('.field-validation-error').addClass('invalid-feedback d-block');
+        $('.input-validation-error').addClass('is-invalid');
+        
+        // Real-time validation feedback
+        $('input, select, textarea').on('blur', function() {
+            var $this = $(this);
+            var isValid = $this.valid();
+            
+            if (isValid) {
+                $this.removeClass('is-invalid').addClass('is-valid');
+            } else {
+                $this.removeClass('is-valid').addClass('is-invalid');
+            }
+        });
+        
+        // Clear validation state on focus
+        $('input, select, textarea').on('focus', function() {
+            $(this).removeClass('is-valid is-invalid');
+        });
+    });
+</script>

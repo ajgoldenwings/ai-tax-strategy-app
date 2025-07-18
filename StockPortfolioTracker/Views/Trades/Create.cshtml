@@ -1,0 +1,164 @@
+@model StockPortfolioTracker.Models.Trade
+
+@{
+    ViewData["Title"] = "Add New Trade";
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title mb-0">
+                        <i class="fas fa-plus-circle me-2"></i>Add New Trade
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Create" method="post" id="tradeForm">
+                        @await Html.PartialAsync("_ValidationErrorsPartial")
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="StockSymbol" class="form-label">Stock Symbol</label>
+                                <input asp-for="StockSymbol" class="form-control text-uppercase" 
+                                       placeholder="e.g., AAPL, MSFT" maxlength="10" />
+                                <span asp-validation-for="StockSymbol" class="text-danger"></span>
+                                <div class="form-text">Enter the stock ticker symbol (1-10 characters)</div>
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Type" class="form-label">Trade Type</label>
+                                <select asp-for="Type" class="form-select">
+                                    <option value="">Select trade type...</option>
+                                    <option value="0">Buy</option>
+                                    <option value="1">Sell</option>
+                                </select>
+                                <span asp-validation-for="Type" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Quantity" class="form-label">Quantity</label>
+                                <input asp-for="Quantity" class="form-control" type="number" 
+                                       step="0.0001" min="0.0001" placeholder="0.0000" />
+                                <span asp-validation-for="Quantity" class="text-danger"></span>
+                                <div class="form-text">Number of shares (minimum 0.0001)</div>
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Price" class="form-label">Price per Share</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">$</span>
+                                    <input asp-for="Price" class="form-control" type="number" 
+                                           step="0.01" min="0.01" placeholder="0.00" />
+                                </div>
+                                <span asp-validation-for="Price" class="text-danger"></span>
+                                <div class="form-text">Price per share in USD (minimum $0.01)</div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="TradeDate" class="form-label">Trade Date</label>
+                                <input asp-for="TradeDate" class="form-control" type="date" 
+                                       max="@DateTime.Today.ToString("yyyy-MM-dd")" />
+                                <span asp-validation-for="TradeDate" class="text-danger"></span>
+                                <div class="form-text">Date when the trade was executed</div>
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Total Value</label>
+                                <div class="form-control-plaintext fw-bold" id="totalValue">
+                                    $0.00
+                                </div>
+                                <div class="form-text">Calculated automatically (Quantity × Price)</div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                    <a asp-action="Index" class="btn btn-secondary me-md-2">
+                                        <i class="fas fa-times me-2"></i>Cancel
+                                    </a>
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-save me-2"></i>Add Trade
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    
+    <script>
+        $(document).ready(function() {
+            // Auto-uppercase stock symbol input
+            $('#StockSymbol').on('input', function() {
+                this.value = this.value.toUpperCase();
+                validateStockSymbol();
+            });
+
+            // Calculate total value when quantity or price changes
+            $('#Quantity, #Price').on('input', function() {
+                calculateTotalValue();
+            });
+
+            // Validate stock symbol format
+            function validateStockSymbol() {
+                var symbol = $('#StockSymbol').val();
+                var isValid = /^[A-Za-z0-9]*$/.test(symbol);
+                
+                if (symbol.length > 0 && !isValid) {
+                    $('#StockSymbol').addClass('is-invalid');
+                } else {
+                    $('#StockSymbol').removeClass('is-invalid');
+                }
+            }
+
+            // Calculate and display total value
+            function calculateTotalValue() {
+                var quantity = parseFloat($('#Quantity').val()) || 0;
+                var price = parseFloat($('#Price').val()) || 0;
+                var total = quantity * price;
+                
+                $('#totalValue').text('$' + total.toLocaleString('en-US', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                }));
+            }
+
+            // Set max date to today
+            var today = new Date().toISOString().split('T')[0];
+            $('#TradeDate').attr('max', today);
+
+            // Initial calculation
+            calculateTotalValue();
+
+            // Form validation enhancement
+            $('#tradeForm').on('submit', function(e) {
+                var isValid = true;
+                
+                // Additional client-side validation
+                var tradeDate = new Date($('#TradeDate').val());
+                var today = new Date();
+                today.setHours(0, 0, 0, 0);
+                
+                if (tradeDate > today) {
+                    e.preventDefault();
+                    alert('Trade date cannot be in the future.');
+                    isValid = false;
+                }
+                
+                return isValid;
+            });
+        });
+    </script>
+}

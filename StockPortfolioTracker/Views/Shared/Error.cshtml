@@ -1,0 +1,140 @@
+﻿@model ErrorViewModel
+@{
+    ViewData["Title"] = "Error";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-8">
+            <div class="card border-danger">
+                <div class="card-header bg-danger text-white">
+                    <h4 class="mb-0">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        Oops! Something went wrong
+                    </h4>
+                </div>
+                <div class="card-body">
+                    @* Display custom error message if available *@
+                    @if (TempData["ErrorMessage"] != null)
+                    {
+                        <div class="alert alert-danger" role="alert">
+                            <h5 class="alert-heading">
+                                <i class="fas fa-exclamation-circle me-2"></i>
+                                Error Details
+                            </h5>
+                            <p class="mb-0">@TempData["ErrorMessage"]</p>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-danger" role="alert">
+                            <h5 class="alert-heading">An error occurred while processing your request</h5>
+                            <p class="mb-0">We apologize for the inconvenience. Our team has been notified and is working to resolve this issue.</p>
+                        </div>
+                    }
+
+                    @if (Model.ShowRequestId)
+                    {
+                        <div class="alert alert-info" role="alert">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-info-circle me-2"></i>
+                                <div>
+                                    <strong>Request ID:</strong> <code>@Model.RequestId</code>
+                                    <br>
+                                    <small class="text-muted">Please include this ID when contacting support.</small>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-center mt-4">
+                        <a href="@Url.Action("Index", "Home")" class="btn btn-primary me-md-2">
+                            <i class="fas fa-home me-1"></i>
+                            Go to Portfolio
+                        </a>
+                        <a href="@Url.Action("Index", "Trades")" class="btn btn-outline-primary me-md-2">
+                            <i class="fas fa-chart-line me-1"></i>
+                            View Trades
+                        </a>
+                        <button onclick="history.back()" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left me-1"></i>
+                            Go Back
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            @* Development information section *@
+            @if (ViewContext.HttpContext.RequestServices.GetService<IWebHostEnvironment>()?.IsDevelopment() == true)
+            {
+                <div class="card mt-4 border-warning">
+                    <div class="card-header bg-warning text-dark">
+                        <h6 class="mb-0">
+                            <i class="fas fa-code me-2"></i>
+                            Development Information
+                        </h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="alert alert-warning" role="alert">
+                            <p class="mb-2">
+                                <strong>Development Mode:</strong> This information is only visible in development environment.
+                            </p>
+                            <p class="mb-0">
+                                For production deployment, ensure the <strong>ASPNETCORE_ENVIRONMENT</strong> variable is set to <strong>Production</strong>
+                                to prevent sensitive information from being displayed to end users.
+                            </p>
+                        </div>
+
+                        @* Show exception details in development *@
+                        @if (TempData["ExceptionDetails"] != null)
+                        {
+                            <div class="alert alert-secondary mt-3" role="alert">
+                                <h6 class="alert-heading">
+                                    <i class="fas fa-bug me-2"></i>
+                                    Exception Details
+                                </h6>
+                                <details class="mt-2">
+                                    <summary class="btn btn-sm btn-outline-secondary">Show Technical Details</summary>
+                                    <pre class="mt-3 p-3 bg-light border rounded"><code>@TempData["ExceptionDetails"]</code></pre>
+                                </details>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+
+            @* Additional help section *@
+            <div class="card mt-4 border-info">
+                <div class="card-header bg-info text-white">
+                    <h6 class="mb-0">
+                        <i class="fas fa-question-circle me-2"></i>
+                        Need Help?
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6><i class="fas fa-lightbulb me-2 text-warning"></i>Common Solutions</h6>
+                            <ul class="list-unstyled">
+                                <li><i class="fas fa-check-circle me-2 text-success"></i>Try refreshing the page</li>
+                                <li><i class="fas fa-check-circle me-2 text-success"></i>Check your internet connection</li>
+                                <li><i class="fas fa-check-circle me-2 text-success"></i>Clear your browser cache</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h6><i class="fas fa-tools me-2 text-primary"></i>Quick Actions</h6>
+                            <div class="d-grid gap-2">
+                                <a href="@Url.Action("Create", "Trades")" class="btn btn-sm btn-outline-success">
+                                    <i class="fas fa-plus me-1"></i>Add New Trade
+                                </a>
+                                <a href="@Url.Action("History", "Home")" class="btn btn-sm btn-outline-info">
+                                    <i class="fas fa-history me-1"></i>View History
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

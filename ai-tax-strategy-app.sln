@@ -1,0 +1,30 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockPortfolioTracker", "StockPortfolioTracker\StockPortfolioTracker.csproj", "{18789A1B-B370-D07E-8A76-00BF10F1AEB6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockPortfolioTracker.Tests", "StockPortfolioTracker.Tests\StockPortfolioTracker.Tests.csproj", "{55F8E33E-E197-5F7F-BD1A-9EA1211D6571}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{18789A1B-B370-D07E-8A76-00BF10F1AEB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18789A1B-B370-D07E-8A76-00BF10F1AEB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18789A1B-B370-D07E-8A76-00BF10F1AEB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18789A1B-B370-D07E-8A76-00BF10F1AEB6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55F8E33E-E197-5F7F-BD1A-9EA1211D6571}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55F8E33E-E197-5F7F-BD1A-9EA1211D6571}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55F8E33E-E197-5F7F-BD1A-9EA1211D6571}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55F8E33E-E197-5F7F-BD1A-9EA1211D6571}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2C90A901-5234-4E00-846E-6E337D5CFB63}
+	EndGlobalSection
+EndGlobal
