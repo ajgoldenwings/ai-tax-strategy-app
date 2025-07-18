@@ -5,6 +5,8 @@ A comprehensive .NET 8 web application for managing personal stock portfolios by
 ## Initial Kiro Prompt
 I want to create a .Net application that takes a list of personal stocks and trades for a given day. I want to track the history of what stocks I have per day.
 
+![Pages of the Application](Documentation/pages.png "Pages of the Application")
+
 ## Features
 
 - **Trade Management**: Record buy/sell transactions with comprehensive validation
